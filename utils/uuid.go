@@ -1,8 +1,10 @@
 package utils
 
-import "github.com/satori/go.uuid"
+import (
+	"github.com/google/uuid"
+)
 
 // 生成一个UUID
 func GetUUID() uuid.UUID {
-	return uuid.NewV4()
+	return uuid.New()
 }
