@@ -8,7 +8,8 @@ import (
 
 var RedisConn *redis.Pool
 
-func Init(maxIdle, maxActive int, idleTimeout time.Duration, host, password string) error {
+// 初始化
+func Setup(maxIdle, maxActive int, idleTimeout time.Duration, host, password string) error {
 	RedisConn = &redis.Pool{
 		MaxIdle:     maxIdle,
 		MaxActive:   maxActive,
@@ -35,6 +36,9 @@ func Init(maxIdle, maxActive int, idleTimeout time.Duration, host, password stri
 	return nil
 }
 
+// 存储值，默认 7200 秒
+// key 键 [字符串类型]
+// data 值 [数据不需要处理，方面里面会自动json化]
 func SetDefault(key string, data interface{}) error {
 	conn := RedisConn.Get()
 	defer conn.Close()
@@ -57,6 +61,10 @@ func SetDefault(key string, data interface{}) error {
 	return nil
 }
 
+// 存储值
+// key 键 [字符串类型]
+// data 值 [数据不需要处理，方面里面会自动json化]
+// time 时间 [秒]
 func Set(key string, data interface{}, time int) error {
 	conn := RedisConn.Get()
 	defer conn.Close()
@@ -79,6 +87,8 @@ func Set(key string, data interface{}, time int) error {
 	return nil
 }
 
+// 是否存在
+// key 键 [字符串类型]
 func Exists(key string) bool {
 	conn := RedisConn.Get()
 	defer conn.Close()
@@ -91,6 +101,8 @@ func Exists(key string) bool {
 	return exists
 }
 
+// 获取数据
+// key 键 [字符串类型]
 func Get(key string) ([]byte, error) {
 	conn := RedisConn.Get()
 	defer conn.Close()
@@ -103,6 +115,8 @@ func Get(key string) ([]byte, error) {
 	return reply, nil
 }
 
+// 删除数据
+// key 键 [字符串类型]
 func Delete(key string) (bool, error) {
 	conn := RedisConn.Get()
 	defer conn.Close()
@@ -110,6 +124,8 @@ func Delete(key string) (bool, error) {
 	return redis.Bool(conn.Do("DEL", key))
 }
 
+// 删除数据
+// key 键 [字符串类型]
 func LikeDeletes(key string) error {
 	conn := RedisConn.Get()
 	defer conn.Close()
