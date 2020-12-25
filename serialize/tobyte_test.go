@@ -38,11 +38,11 @@ func TestToByte(t *testing.T) {
 		DeletedBy:  "",
 	}
 
-	bytes, err := serialize.GetBytes(city)
+	bytes, err := serialize.ToBytes(city)
 	require.NoError(t, err)
 	require.NotEmpty(t, bytes)
 
-	toStrings, err := serialize.DeserializeToString(bytes)
+	toStrings, err := serialize.ToString(bytes)
 	require.NoError(t, err)
 	require.NotEmpty(t, toStrings)
 

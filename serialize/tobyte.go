@@ -6,7 +6,7 @@ import (
 	"encoding/gob"
 )
 
-// 序列化成 二进制
+// 序列化成 二进制 [有bug]
 func SerializeToBytes(date interface{}) ([]byte, error) {
 	buf := new(bytes.Buffer)
 
@@ -18,7 +18,7 @@ func SerializeToBytes(date interface{}) ([]byte, error) {
 }
 
 // 反序列化
-func DeserializeToString(byte []byte) (string, error) {
+func ToString(byte []byte) (string, error) {
 	var str string
 	buf := bytes.NewBuffer(byte)
 
@@ -29,8 +29,8 @@ func DeserializeToString(byte []byte) (string, error) {
 	return str,nil
 }
 
-// GetBytes
-func GetBytes(key interface{}) ([]byte, error) {
+// ToBytes
+func ToBytes(key interface{}) ([]byte, error) {
 	var buf bytes.Buffer
 	enc := gob.NewEncoder(&buf)
 	err := enc.Encode(key)
