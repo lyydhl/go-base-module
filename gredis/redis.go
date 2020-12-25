@@ -65,7 +65,7 @@ func SetDefault(key string, data interface{}) error {
 // 存储值
 // key 键 [字符串类型]
 // data 值 [数据不需要处理，方面里面会自动json化]
-// time 时间 [秒]
+// time 时间 [秒 如果为 -1 则永久存储]
 func Set(key string, data interface{}, time int) error {
 	conn := RedisConn.Get()
 	defer conn.Close()
@@ -80,9 +80,11 @@ func Set(key string, data interface{}, time int) error {
 		return err
 	}
 
-	_, err = conn.Do("EXPIRE", key, time)
-	if err != nil {
-		return err
+	if time != -1 {
+		_, err = conn.Do("EXPIRE", key, time)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
@@ -106,9 +108,11 @@ func SetToBytes(key string, data interface{}, time int) error {
 		return err
 	}
 
-	_, err = conn.Do("EXPIRE", key, time)
-	if err != nil {
-		return err
+	if time != -1 {
+		_, err = conn.Do("EXPIRE", key, time)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
