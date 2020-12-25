@@ -92,13 +92,13 @@ func Set(key string, data interface{}, time int) error {
 
 // 存储值 存储二进制
 // key 键 [字符串类型]
-// data 值 [数据不需要处理，方面里面会自动json化]
+// data 值 [数据不需要处理，方面里面会自动序列化]
 // time 时间 [秒]
 func SetToBytes(key string, data interface{}, time int) error {
 	conn := RedisConn.Get()
 	defer conn.Close()
 
-	value, err := serialize.SerializeToBytes(data)
+	value, err := serialize.GetBytes(data)
 	if err != nil {
 		return err
 	}

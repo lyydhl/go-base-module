@@ -3,6 +3,7 @@ package serialize
 import (
 	"bytes"
 	"encoding/binary"
+	"encoding/gob"
 )
 
 // 序列化成 二进制
@@ -26,4 +27,15 @@ func DeserializeToString(byte []byte) (string, error) {
 		return "", err
 	}
 	return str,nil
+}
+
+// GetBytes
+func GetBytes(key interface{}) ([]byte, error) {
+	var buf bytes.Buffer
+	enc := gob.NewEncoder(&buf)
+	err := enc.Encode(key)
+	if err != nil {
+		return nil, err
+	}
+	return buf.Bytes(), nil
 }
